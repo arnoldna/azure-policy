@@ -1,0 +1,51 @@
+{
+ "properties": {
+  "displayName": "Application Insights should use private endpoints",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "This policy audits if Application Insights is not using private endpoints",
+  "metadata": {
+   "category": "BLK Custom",
+   "createdBy": "bad0519b-d210-4235-ad83-837879a4ca27",
+   "createdOn": "2021-02-25T21:48:36.1069313Z",
+   "updatedBy": "bad0519b-d210-4235-ad83-837879a4ca27",
+   "updatedOn": "2021-02-25T21:59:20.8632855Z"
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "Audit",
+     "Disabled"
+    ],
+    "defaultValue": "Audit"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Insights/Components"
+     },
+     {
+      "count": {
+       "field": "Microsoft.Insights/components/PrivateLinkScopedResources[*]"
+      },
+      "equals": 0
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/subscriptions/1db25687-69f8-41dc-845f-2958b094e631/providers/Microsoft.Authorization/policyDefinitions/afe4eca5-91d2-41b1-a09a-310e0e1876eb",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "afe4eca5-91d2-41b1-a09a-310e0e1876eb"
+}
